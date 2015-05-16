@@ -3,20 +3,26 @@ package main
 import(
 	"fmt"
 	"errors"
+	"os"
 )
 
 func main() {
-	var sm StackMachine
-	sm.operators = map[rune]func()error{
-		'+': sm.add,
-		'*': sm.multiply,
-	}
-	fmt.Println(sm.calculate("13+62*7+*"))
+	sm := NewStackMachine()	
+	fmt.Println(sm.calculate(os.Args[1]))
 }
 
 type StackMachine struct {
 	numStack []int
 	operators   map[rune]func()error
+}
+
+func NewStackMachine() *StackMachine {
+	var sm StackMachine
+	sm.operators = map[rune]func()error{
+		'+': sm.add,
+		'*': sm.multiply,
+	}
+	return &sm
 }
 
 func (sm *StackMachine) pop() (num int, err error) {
