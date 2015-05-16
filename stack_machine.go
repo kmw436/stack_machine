@@ -1,24 +1,24 @@
 package main
 
-import(
-	"fmt"
+import (
 	"errors"
+	"fmt"
 	"os"
 )
 
 func main() {
-	sm := NewStackMachine()	
+	sm := NewStackMachine()
 	fmt.Println(sm.calculate(os.Args[1]))
 }
 
 type StackMachine struct {
-	numStack []int
-	operators   map[rune]func()error
+	numStack  []int
+	operators map[rune]func() error
 }
 
 func NewStackMachine() *StackMachine {
 	var sm StackMachine
-	sm.operators = map[rune]func()error{
+	sm.operators = map[rune]func() error{
 		'+': sm.add,
 		'*': sm.multiply,
 	}
@@ -38,14 +38,14 @@ func (sm *StackMachine) calculate(userInput string) int {
 	for _, r := range userInput {
 		if sm.operators[r] != nil {
 			err := sm.operators[r]()
-			if err != nil{
+			if err != nil {
 				return -1
 			}
 		} else {
-			sm.numStack = append(sm.numStack, int(r - '0'))
+			sm.numStack = append(sm.numStack, int(r-'0'))
 		}
 	}
-	return sm.numStack[len(sm.numStack) - 1]
+	return sm.numStack[len(sm.numStack)-1]
 }
 
 func (sm *StackMachine) add() (err error) {
@@ -55,7 +55,7 @@ func (sm *StackMachine) add() (err error) {
 	if err != nil {
 		return
 	}
-	sm.numStack = append(sm.numStack, num1 + num2)
+	sm.numStack = append(sm.numStack, num1+num2)
 	return
 }
 
@@ -66,6 +66,6 @@ func (sm *StackMachine) multiply() (err error) {
 	if err != nil {
 		return
 	}
-	sm.numStack = append(sm.numStack, num1 * num2)
+	sm.numStack = append(sm.numStack, num1*num2)
 	return
 }
