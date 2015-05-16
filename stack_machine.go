@@ -9,12 +9,9 @@ func main() {
 	var sm StackMachine
 	sm.operators = map[rune]func()error{
 		'+': sm.add,
+		'*': sm.multiply,
 	}
-	fmt.Println(sm.calculate("12+4++"))
-}
-
-func whoAmI() string {
-	return "Stack Machine"
+	fmt.Println(sm.calculate("13+62*7+*"))
 }
 
 type StackMachine struct {
@@ -53,5 +50,16 @@ func (sm *StackMachine) add() (err error) {
 		return
 	}
 	sm.numStack = append(sm.numStack, num1 + num2)
+	return
+}
+
+func (sm *StackMachine) multiply() (err error) {
+	var num1, num2 int
+	num1, err = sm.pop()
+	num2, err = sm.pop()
+	if err != nil {
+		return
+	}
+	sm.numStack = append(sm.numStack, num1 * num2)
 	return
 }
