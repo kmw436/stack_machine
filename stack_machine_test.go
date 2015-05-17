@@ -5,11 +5,7 @@ import (
 )
 
 func TestCalculate(t *testing.T) {
-	var sm StackMachine
-	sm.operators = map[rune]func() error{
-		'+': sm.add,
-		'*': sm.multiply,
-	}
+	sm := NewStackMachine()
 	testCases := map[string]int{
 		"13+62*7+*": 76,
 		"11++":      -1,
